@@ -14,12 +14,12 @@ The Chart installation consist of the following .yaml files:
 
 ReportPortal use the following images:
 
-- serviceindex: pbortnik/rp5-index
-- uat: pbortnik/rp5-uat
-- serviceui: pbortnik/rp5-ui
-- serviceapi: pbortnik/rp5-api
-- migrations: pbortnik/rp5-migrations
-- serviceanalyzer: pbortnik/rp5-analyzer
+- serviceindex: reportportal/service-index
+- uat: reportportal/service-authorization
+- serviceui: reportportal/service-ui
+- serviceapi: reportportal/service-api
+- migrations: reportportal/migration
+- serviceanalyzer: reportportal/service-analyzer
 
 Requirements: 
 
@@ -227,7 +227,7 @@ $ helm install stable/wordpress
 ```
 Do not forget to clean up the Wordpress chart resources after making sure everything works as expected
 
-3. Deploy Ingress controller if you need to expose your application
+3. Deploy NGINX Ingress controller
 
 Please find the guides below:
 
@@ -381,7 +381,7 @@ helm package ./reportportal/
 helm install --name <reportportal_chart_name> --set postgresql.SecretName=<db_chart_name>-postgresql,rabbitmq.SecretName=<rabbitmq_chart_name>-rabbitmq-ha ./reportportal-5.0-SNAPSHOT.tgz
 ```
 
-8. Once ReportPortal is deployed, you can validate application is up and running by opening your NodePort / Ingress address server:
+8. Once ReportPortal is deployed, you can validate application is up and running by opening your NodePort / LoadBalancer address:
 
 ```sh
 kubectl get service
