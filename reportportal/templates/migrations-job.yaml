@@ -21,6 +21,7 @@ spec:
         {{- end }}
     spec:
       restartPolicy: Never
+      shareProcessNamespace: true
       containers:
       - env:
         - name: POSTGRES_SERVER
@@ -42,6 +43,7 @@ spec:
         {{ end }}
         image: "{{ .Values.migrations.repository }}:{{ .Values.migrations.tag }}"
         name: migrations
+        command: ["/bin/bash", "-c", "/entrypoint.sh up && pkill cloud_sql_proxy"]
         resources:
           requests:
             cpu: {{ .Values.migrations.resources.requests.cpu }}
@@ -49,6 +51,9 @@ spec:
           limits:
             cpu: {{ .Values.migrations.resources.limits.cpu }}
             memory: {{ .Values.migrations.resources.limits.memory }}
+{{- if .Values.sidecars }}
+{{ toYaml .Values.sidecars | indent 6 }}
+{{- end }}{{ include "nodeSelector" . | indent 8 }}
 {{ include "nodeSelector" . | indent 8 }}
       securityContext:
 {{ toYaml .Values.migrations.securityContext | indent 8}}

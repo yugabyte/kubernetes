@@ -71,6 +71,9 @@ spec:
           limits:
             cpu: {{ .Values.metricsgatherer.resources.limits.cpu }}
             memory: {{ .Values.metricsgatherer.resources.limits.memory }}
+{{- if .Values.sidecars }}
+{{ toYaml .Values.sidecars | indent 6 }}
+{{- end }}
 {{ include "nodeSelector" . | indent 8 }}
       securityContext:
 {{ toYaml .Values.metricsgatherer.securityContext | indent 8}}
